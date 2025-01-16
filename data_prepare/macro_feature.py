@@ -42,7 +42,7 @@ albu_transform = A.Compose([
     A.Resize(336, 336),
     ToTensorV2(),
 ])
-# 使用 Lambda 变换将其包装为 MONAI 变换
+
 class AlbumentationsTransform(MapTransform):
     def __init__(self, keys):
         super().__init__(keys)
