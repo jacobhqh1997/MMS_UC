@@ -64,7 +64,7 @@ def set_parameter_requires_grad(model, feature_extracting):
             param.requires_grad = False
 
 model_dir = 'path/to/checkpoint.pt'
-save_dir = 'D:/TCGA_SUPP'
+save_dir = 'path/to/save_dir'
 os.makedirs(save_dir, exist_ok=True)
 num_classes = 8
 feature_extract = False
@@ -116,7 +116,7 @@ def process_patches_in_memory(slide_path, model, transform, batch_size=10000,sav
     all_tissue_samples = find_patches_from_slide(slide_path)
     locs = [(row[1].tile_loc[1], row[1].tile_loc[0]) for row in all_tissue_samples.iterrows()]
  
-    dataset = InMemoryPatchesDataset(slide_path, tiles.level_count-2, 128, 64, locs, transform=transform)
+    dataset = InMemoryPatchesDataset(slide_path, tiles.level_count-2, 128, 128, locs, transform=transform)
 
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
      
