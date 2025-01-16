@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torch.optim.lr_scheduler as lr_scheduler
-from Networks.Macro_networks_nll import resnext50_32x4d, regularize_path_weights
+from Networks.Macro_networks import resnext50_32x4d, regularize_path_weights
 import copy
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
