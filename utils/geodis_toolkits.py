@@ -7,7 +7,6 @@ import torch
 import torchio as tio
 import GeodisTK
 
-
 def focusregion_index(pred_array):
 
     """find index for each axis which has the biggest summation value"""
@@ -110,8 +109,6 @@ def randominteraction(label_array):
     sb = randompoint(overseg)
     sf = randompoint(underseg)
     return sb, sf
-
-
 
 def geodismap(sf, sb, input_np):
 
