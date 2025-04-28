@@ -1,6 +1,5 @@
 import monai
 
-
 def iou(pred_onehot, true_onehot, include_background=False):
     """
     Params
@@ -21,7 +20,6 @@ def iou(pred_onehot, true_onehot, include_background=False):
     )
     return score.to("cpu").numpy()
 
-
 def dsc(pred_onehot, true_onehot, include_background=False):
     """
     Params
@@ -37,7 +35,6 @@ def dsc(pred_onehot, true_onehot, include_background=False):
         include_background
     )
     return score.to("cpu").numpy()
-
 
 def assd(pred_onehot, true_onehot, include_background=False):
     """
