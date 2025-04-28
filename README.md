@@ -184,7 +184,7 @@ DATA_ROOT is the base directory of all datasets (e.g. the directory to your SSD 
 
 
 ## Acknowledgements
-- Prognosis training and test code base structure was inspired by [[PathFinder]]((https://github.com/Biooptics2021/PathFinder)) and[[MCAT]](https://github.com/mahmoodlab/MCAT) .
+- Prognosis training and test code base structure was inspired by [[PathFinder]](https://github.com/Biooptics2021/PathFinder) and[[MCAT]](https://github.com/mahmoodlab/MCAT) .
 
   
 
