@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 import numpy as np
 import torchvision
@@ -64,7 +63,7 @@ def set_parameter_requires_grad(model, feature_extracting):
             param.requires_grad = False
 
 model_dir = 'path/to/checkpoint.pt'
-save_dir = 'path/to/save_dir'
+save_dir = 'path/to/local_save'
 os.makedirs(save_dir, exist_ok=True)
 num_classes = 8
 feature_extract = False
@@ -110,7 +109,7 @@ class InMemoryPatchesDataset(torch.utils.data.Dataset):
 
 def process_patches_in_memory(slide_path, model, transform, batch_size=10000,save_dir=save_dir):
     slide = openslide.OpenSlide(slide_path)
-    tiles = DeepZoomGenerator(slide, tile_size=128, overlap=128, limit_bounds=False)
+    tiles = DeepZoomGenerator(slide, tile_size=128, overlap=64, limit_bounds=False)
     size = (int((tiles.level_dimensions)[-2][1]/128),int((tiles.level_dimensions)[-2][0]/128))
     print(size)
     all_tissue_samples = find_patches_from_slide(slide_path)
