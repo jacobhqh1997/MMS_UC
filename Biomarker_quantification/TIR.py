@@ -49,9 +49,5 @@ def TIR_Score(prob_map_path, cell_size):
 
 prob_map_path = "path/to/your/prob_map.npy"  
 cell_size = 10  
-
-
 TIR_score, Coloc_M = TIR_Score(prob_map_path, cell_size)
-
-
 print("TIR Score:", TIR_score)
