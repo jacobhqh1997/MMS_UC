@@ -145,8 +145,6 @@ def path_cleaning(macro_path, info_df):
     return cleaned_path_V
 
 
-
-
 def filter_values(risk_pred_all, censor_all, survtime_all, file_path_all, wsis_values):
     risk_pred_filtered, censor_filtered, survtime_filtered, file_path_filtered = [], [], [], []
     for risk_pred, censor, survtime, file_path in zip(risk_pred_all, censor_all, survtime_all, file_path_all):
