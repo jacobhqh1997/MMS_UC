@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import os
 def TIM_Score(prob_map_path, cell_size):
