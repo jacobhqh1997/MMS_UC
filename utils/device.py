@@ -1,6 +1,5 @@
 import torch
 
-
 def device_config(config):
     if torch.cuda.is_available():
         print("GPU is available. Run with GPU")
