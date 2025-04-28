@@ -43,6 +43,5 @@ class SEResNext50FeatureExtractor(SEResNext50):
         hazards = torch.sigmoid(logits)
         survs = torch.cumprod(1 - hazards, dim=1)
         Y = F.softmax(logits, dim=1)
-
-    
+        
         return features, hazards, survs, Y
