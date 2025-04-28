@@ -47,6 +47,7 @@ albu_transform = A.Compose([
     A.Resize(336, 336),
     ToTensorV2(),
 ])
+
 class AlbumentationsTransform(MapTransform):
     def __init__(self, keys):
         super().__init__(keys)
@@ -85,8 +86,7 @@ def prepare_data_list(seg_filepaths, data,n_classes=4):
         O = torch.tensor(O).type(torch.FloatTensor)
         T = torch.tensor(T).type(torch.FloatTensor)
         survival_class = torch.tensor(survival_class).type(torch.LongTensor)
-        weight = 1 if "3st" in ID else 1
-        data_list.append({"image": seg, "T": T, "O": O, "survival_class": survival_class, "seg_filepath":seg_filepath, "weight": weight})
+        data_list.append({"image": seg, "T": T, "O": O, "survival_class": survival_class, "seg_filepath":seg_filepath})
     return data_list
 
 
