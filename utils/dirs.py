@@ -1,6 +1,5 @@
 import os
 
-
 def create_dirs(dirs):
     try:
         for dir_ in dirs:
