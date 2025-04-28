@@ -2,14 +2,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys
-sys.path.append('./')
-from Networks.blocks import AttentionNetGated, MultiheadContextualGatedAttention
+sys.path.append('/path/to/MMS_UC_NO_C')  
+from Networks.blocks import AttentionNetGated, PreGatingContextualAttention
 from Networks.fusion import BilinearFusion, ConcatFusion, GatedConcatFusion
 from typing import List
 
-class MultiheadContextualGatedAttentionTransformer(nn.Module):
+class NarrowContextualAttentionGateTransformer(nn.Module):
     def __init__(self, mic_sizes: List[int], model_size: str = 'medium', n_classes: int = 4, dropout: float = 0.25, fusion: str = 'concat', device: str = 'cpu'):
-        super(MultiheadContextualGatedAttentionTransformer, self).__init__()
+        super(NarrowContextualAttentionGateTransformer, self).__init__()
         self.n_classes = n_classes
         if model_size == 'small':
             self.model_sizes = [128, 128]
@@ -42,8 +42,8 @@ class MultiheadContextualGatedAttentionTransformer(nn.Module):
             mic_encoders.append(fc)
         self.G = nn.ModuleList(mic_encoders)
 
-        self.co_attention_M = MultiheadContextualGatedAttention(embed_dim=self.model_sizes[1], num_heads=1)
-        self.co_attention_R = MultiheadContextualGatedAttention(embed_dim=self.model_sizes[1], num_heads=1)
+        self.co_attention_M = PreGatingContextualAttention(embed_dim=self.model_sizes[1], num_heads=1)
+        self.co_attention_R = PreGatingContextualAttention(embed_dim=self.model_sizes[1], num_heads=1)
 
         # Path Transformer (T_H)
         path_encoder_layer = nn.TransformerEncoderLayer(d_model=self.model_sizes[1], nhead=8, dim_feedforward=512, dropout=dropout,
@@ -79,19 +79,20 @@ class MultiheadContextualGatedAttentionTransformer(nn.Module):
         # Fusion Layer
         self.fusion = fusion
         if self.fusion == 'concat':
-            self.fusion_layer = ConcatFusion(dims=[self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], 27],
+            self.fusion_layer = ConcatFusion(dims=[self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], self.model_sizes[1]],
                                              hidden_size=self.model_sizes[1], output_size=self.model_sizes[1]).to(device=device)
-  
+        elif self.fusion == 'bilinear':
+            self.fusion_layer = BilinearFusion(dim1=self.model_sizes[1], dim2=self.model_sizes[1], output_size=self.model_sizes[1])
         elif self.fusion == 'gated_concat':
-            self.fusion_layer = GatedConcatFusion(dims=[self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], 27],
+            self.fusion_layer = GatedConcatFusion(dims=[self.model_sizes[1], self.model_sizes[1], self.model_sizes[1], self.model_sizes[1]],
                                                   hidden_size=self.model_sizes[1], output_size=self.model_sizes[1]).to(device=device)
         else:
             raise RuntimeError(f'Fusion mechanism {self.fusion} not implemented')
 
-
+        # Classifier
         self.classifier = nn.Linear(self.model_sizes[1], n_classes)
 
-    def forward(self, wsi, macros, radios, clincs):
+    def forward(self, wsi, macros, radios):
         # WSI Fully connected layer
         # H_bag: (Mxd_k)
         H_bag = self.H(wsi).squeeze(0)
@@ -127,11 +128,9 @@ class MultiheadContextualGatedAttentionTransformer(nn.Module):
         A_radio = torch.transpose(A_radio, 1, 0)
         h_radio = torch.mm(F.softmax(A_radio, dim=1), h_radio)
         h_radio = self.radio_rho(h_radio).squeeze()
-        clincs = clincs.squeeze(0)
-
         # print(self.model_sizes[1])
         # print( self.fusion_layer)
-        h = self.fusion_layer(h_path_M, h_macro, h_path_R, h_radio, clincs)
+        h = self.fusion_layer(h_path_M, h_macro, h_path_R, h_radio)
         # print(h.shape)
         # logits: classifier output
         # size   --> (1, 4)
@@ -154,29 +153,24 @@ class MultiheadContextualGatedAttentionTransformer(nn.Module):
                          
         return hazards, survs, Y, attention_scores
 
-
     def get_trainable_parameters(self):
         return sum(p.numel() for p in self.parameters() if p.requires_grad)
 
 
 def test_nacagat():
     print('Testing NarrowContextualAttentionGateTransformer...')
+    wsi = torch.randn((1,3000, 1024))  
+    macros = torch.randn((1,1, 2048))  
+    radios = torch.randn((1,1, 2048)) 
 
-  
-    wsi = torch.randn((1,3000, 1024))  # WSI
-    macros = torch.randn((1,1, 2048))  # macros
-    radios = torch.randn((1,1, 2048))  # radios
-    clincs = torch.randn((1, 27))  # clincs
-
-    mic_sizes = [2048, 2048]  #mic_sizes
+    mic_sizes = [2048, 2048]  
     model_sizes = ['small', 'medium', 'big']
 
     for model_size in model_sizes:
         print(f'Size {model_size}')
-        model = MultiheadContextualGatedAttentionTransformer(mic_sizes=mic_sizes, model_size=model_size)
-        hazards, survs, Y_hat, attention_scores = model(wsi, macros, radios, clincs)
+        model = NarrowContextualAttentionGateTransformer(mic_sizes=mic_sizes, model_size=model_size)
+        hazards, survs, Y_hat, attention_scores = model(wsi, macros, radios)
         
- 
         assert hazards.shape == (1, 4), f"Expected hazards shape (1, 4), but got {hazards.shape}"
         assert survs.shape == (1, 4), f"Expected survs shape (1, 4), but got {survs.shape}"
         assert Y_hat.shape == (1, 4), f"Expected Y_hat shape (1, 4), but got {Y_hat.shape}"
