@@ -1,10 +1,9 @@
 import numpy as np
 import torch
 
-
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
+    
 class NegativeLogLikelihoodSurvivalLoss:
     def __call__(self, hazards, S, Y, c, alpha=0.15, eps=1e-7):
         batch_size = len(Y)
@@ -18,8 +17,7 @@ class NegativeLogLikelihoodSurvivalLoss:
         loss = (1 - alpha) * neg_l + alpha * uncensored_loss
         loss = loss.mean()
         return loss
-
-
+        
 class CoxSurvivalLoss:
     def __call__(self, hazards, S, c):
         # https://github.com/traversc/cox-nnet
