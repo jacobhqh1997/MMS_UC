@@ -8,7 +8,6 @@ from monai.losses import DiceLoss, DiceCELoss
 from utils.dirs import create_dirs
 from utils.geodis_toolkits import get_geodismaps
 from Networks.metrics import iou, dsc, assd
-
 from monai.inferers import sliding_window_inference
 scaler = torch.cuda.amp.GradScaler()
 
@@ -218,14 +217,14 @@ class BLATrainer:
             # Train
             train_result_dict = self.train_epoch()
             self.logger.update("train", train_result_dict)
-
+            
             # Valid
             valid_result_dict = self.valid_epoch()
             self.logger.update("valid", valid_result_dict)
           
             # Learning rate scheduling
             self.lr_scheduler.step()
-
+            
             # Save checkpoint
             self.save_checkpoint(epoch)
 
@@ -236,3 +235,5 @@ class BLATrainer:
             self.logger.summarize("train", file_path='./train_log_rnet_uc.txt')
             self.logger.summarize("valid", file_path='./valid_log_rnet_uc.txt')
             self.logger.reset()
+
+
