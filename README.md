@@ -58,7 +58,7 @@ $ python CT_process.py
 - Create original macroscopic tissue probability heatmaps for MacroContextNet training. WSIs are first processed by UCSparseNet network to get  local  probability heatmaps, Global knowledge-guided patch representation: create global  probability heatmaps. 
 
 ``` shell
-  $ cd ./Data_process
+  $ cd ./Data_prepare
   $ python  UCSparseNet_inference.py
   $ python  inference_global_probability.py 
 ```
