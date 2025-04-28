@@ -83,4 +83,3 @@ TFS_score = calculate_tumor_score(prob_map_path, cell_size)
 IMTS_score =Tim_score*TFS_score
 
 
-
