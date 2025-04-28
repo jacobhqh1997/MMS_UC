@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-def TIM_Score(prob_map_path, cell_size):
+def TIR_Score(prob_map_path, cell_size):
     # prob_map: MxNx8 numpy array contains the probabilities
     # cell_size: number of patch to be consider as one grid-cell
     prob_map = np.load(prob_map_path)
@@ -51,6 +51,6 @@ prob_map_path = "path/to/your/prob_map.npy"
 cell_size = 10  
 
 
-tim_score, Coloc_R = TIM_Score(prob_map_path, cell_size)
+tim_score, Coloc_R = TIR_Score(prob_map_path, cell_size)
 
 print("Colocalization Score:", Coloc_R )
