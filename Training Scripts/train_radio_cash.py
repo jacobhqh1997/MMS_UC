@@ -200,7 +200,6 @@ if __name__ == '__main__':
         print('learning rate = %.7f' % lr)
 
         loss_epoch /= len(train_loader.dataset)
-
         max_cindex = 0
         best_threshold = 0
 
@@ -226,7 +225,6 @@ if __name__ == '__main__':
                 risk_pred_all = np.concatenate((risk_pred_all, pred.reshape(-1)))   # Logging Information
                 censor_all = np.concatenate((censor_all, censor.detach().cpu().numpy().reshape(-1)))   # Logging Information
                 survtime_all = np.concatenate((survtime_all, survtime.detach().cpu().numpy().reshape(-1)))   # Logging Information
-        
 
         metrics_train = {
             'Epoch': epoch,
