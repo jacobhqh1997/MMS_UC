@@ -1,6 +1,5 @@
 import argparse
 
-
 def get_args():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
