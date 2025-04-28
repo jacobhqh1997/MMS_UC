@@ -10,7 +10,6 @@ from torch.nn.functional import _in_projection_packed, linear
 from torch.nn.modules.linear import NonDynamicallyQuantizableLinear
 from torch.nn.init import xavier_uniform_, constant_, xavier_normal_
 
-
 class AttentionNetGated(nn.Module):
     def __init__(self, input_dim: int = 256, hidden_dim: int = 256, dropout_p: bool = True, n_classes: int = 1):
         r"""
@@ -47,8 +46,7 @@ class AttentionNetGated(nn.Module):
         # N x n_classes
         A = self.attention_c(A)
         return A, x
-
-
+        
 class MultiheadContextualGatedAttention(nn.Module):
     def __init__(self, embed_dim, num_heads, device=None, dtype=None, dropout_p: float = 0.25) -> None:
         factory_kwargs = {'device': device, 'dtype': dtype}
@@ -150,18 +148,13 @@ def multi_head_attention_forward(
     assert head_dim * num_heads == embed_dim, f"embed_dim {embed_dim} not divisible by num_heads {num_heads}"
     assert key.shape == value.shape, f"key shape {key.shape} does not match value shape {value.shape}"
 
-    #
-    # compute in-projection
-    #
+
     assert in_proj_weight is not None, "use_separate_proj_weight is False but in_proj_weight is None"
     q, k, v = _in_projection_packed(query, key, value, in_proj_weight, in_proj_bias)
 
     assert bias_k is None
     assert bias_v is None
 
-    #
-    # reshape q, k, v for multihead attention and make em batch first
-    #
     q = q.view(tgt_len, bsz * num_heads, head_dim).transpose(0, 1)
     k = k.view(k.shape[0], bsz * num_heads, head_dim).transpose(0, 1)
     v = v.view(v.shape[0], bsz * num_heads, head_dim).transpose(0, 1)
@@ -172,10 +165,6 @@ def multi_head_attention_forward(
     # adjust dropout probability
     if not training:
         dropout_p = 0.0
-
-    #
-    # (deep breath and swears) calculate attention and out projection
-    #
 
     B, Nt, E = q.shape
     q_scaled = q / math.sqrt(E)
@@ -228,7 +217,6 @@ class PreGatedAttention(nn.Module):
         Q_hat = torch.matmul(attention_weights, V)
 
         return Q, Q_hat, attention_weights
-
 
 class ContextualAttentionGate(nn.Module):
     def __init__(self, dim: int = 256, hidden_dim: int = 128):
