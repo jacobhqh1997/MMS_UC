@@ -13,6 +13,7 @@
     "batch_size": 1,
     "num_workers": 6
   },
+  
   "model": {
     "c_in": 3,
     "c_blk": 32,
