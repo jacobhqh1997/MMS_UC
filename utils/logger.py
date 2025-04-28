@@ -13,7 +13,7 @@ class MetricsLogger:
         for split in self.config.logger.splits:
             for metric in self.config.logger.metrics:
                 self.logger[f"{split}_{metric}"] = []
-
+                
     def init_tensorboard(self):
         self.summary_writer = SummaryWriter(self.config.exp.tensorboard_dir)
     
@@ -27,7 +27,7 @@ class MetricsLogger:
 
     def get_value(self, split, metric):
         return np.mean(self.logger[f"{split}_{metric}"])
-
+        
     def summarize(self, split, file_path):
         log_msgs = []
         for metric in self.config.logger.metrics:
@@ -37,7 +37,7 @@ class MetricsLogger:
         # print(f"[{split}] " + ", ".join(log_msgs))
         with open(file_path, "a") as file:
             file.write(result_str + "\n")
-    
+            
     def write_tensorboard(self, step):
         for split in self.config.logger.splits:
             summary_dict = {}
