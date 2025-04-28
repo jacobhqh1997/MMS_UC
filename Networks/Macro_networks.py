@@ -189,10 +189,10 @@ class ResNet(nn.Module):
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        #change the input channel 3->8
-        self.conv1 = nn.Conv2d(8, self.inplanes, kernel_size=7, stride=2, padding=3,
+        #change the input channel 3->16
+        self.conv1 = nn.Conv2d(16, self.inplanes, kernel_size=7, stride=2, padding=3,
                                bias=False)
-        # self.bn1 = nn.InstanceNorm2d(64)  # 替换为实例归一化
+        # self.bn1 = nn.InstanceNorm2d(64)  
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -205,7 +205,7 @@ class ResNet(nn.Module):
                                        dilate=replace_stride_with_dilation[2])
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, self.feature_dim)
-        self.bn2 = nn.InstanceNorm1d(self.feature_dim)  # 替换为实例归一化
+        self.bn2 = nn.InstanceNorm1d(self.feature_dim) 
         # self.bn2 = nn.BatchNorm1d(self.feature_dim)
         self.relu2 = nn.ReLU()
         self.linear = nn.Linear(self.feature_dim, num_classes)
