@@ -12,7 +12,6 @@ from monai.transforms import (
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-
 def get_dataloaders(config):
   
     image_paths = sorted(glob.glob(os.path.join(config.data.data_dir, "All", "imagesTr", "*.nii.gz")))
