@@ -80,7 +80,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_uni.to(device)
 
 
-
 features_dict_uni = defaultdict(lambda: {'features': [], 'coords': []})
 
 # 
@@ -94,9 +93,6 @@ with torch.no_grad():
             subdir = os.path.dirname(path).split('/')[-1]
             features_dict_uni[subdir]['features'].append(feature_uni.cpu())
             features_dict_uni[subdir]['coords'].append((y.item(), x.item())) 
-
-
-
 
 for subdir, data in features_dict_uni.items():
     filename = f"{subdir}_features.pt"
