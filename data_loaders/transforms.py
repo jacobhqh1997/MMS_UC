@@ -21,7 +21,6 @@ from monai.transforms import (
 
 def custom_select_fn(x):
     return x > 0
-
 def get_transform(split):
     if split == "train":
         transform = Compose([
