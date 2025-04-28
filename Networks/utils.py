@@ -15,20 +15,17 @@ def get_omics_sizes_from_dataset(hdf5_file):
     sorted_counts = [category_counts[category] for category in sorted(category_counts.keys())]
     return sorted_counts
 
-
 def get_rnaseq_size_from_dataset(hdf5_file):
     with h5py.File(hdf5_file, 'r') as f:
         first_case_id = list(f.keys())[0]
         omics_group = f[first_case_id]['genomics']
         return len(omics_group['rnaseq'])
 
-
 def get_cnv_size_from_dataset(hdf5_file):
     with h5py.File(hdf5_file, 'r') as f:
         first_case_id = list(f.keys())[0]
         omics_group = f[first_case_id]['genomics']
         return len(omics_group['cnv'])
-
 
 def l1_reg(model):
     reg = None
@@ -38,7 +35,6 @@ def l1_reg(model):
         else:
             reg = reg + torch.abs(W).sum()
     return reg
-
 
 def init_max_weights(module):
     for m in module.modules():
