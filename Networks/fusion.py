@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-
 from Networks.utils import init_max_weights
-
 
 class ConcatFusion(nn.Module):
     def __init__(self, dims: list, hidden_size: int = 256, output_size: int = 256):
@@ -19,11 +17,7 @@ class ConcatFusion(nn.Module):
 
     def forward(self, *x):
         concat = torch.cat(x, dim=0)
-    
         return self.fusion_layer(concat)
-
-
-
 
 class GatedConcatFusion(nn.Module):
     def __init__(self, dims: list, hidden_size: int = 256, output_size: int = 256):
@@ -47,6 +41,3 @@ class GatedConcatFusion(nn.Module):
             items.append(item * g)
         concat = torch.cat(items, dim=0)  
         return self.fusion_layer(concat)
-
-
-
