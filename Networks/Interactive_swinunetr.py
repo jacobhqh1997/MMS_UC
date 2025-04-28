@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch.nn.parallel import DistributedDataParallel as DDP
 from monai.networks.nets import SwinUNETR
 
-
 def build_model(config):
     model = SwinUNETR(
                     img_size=(96, 96, 96), 
