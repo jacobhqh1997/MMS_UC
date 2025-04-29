@@ -3,8 +3,7 @@
 © This code is made available for non-commercial academic purposes. 
 
 ## Overview
-Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains a prevalent and lethal malignancy within the urinary tract. Precise  UC survival risk stratification is critical for accurate personalized therapy. Here we present an interactive, interpretable and  integrated deep learning system for biomarker exploration and prognosis prediction. Inspired by the previous research "PathFinder" and "MCAT", eight potential BCa prognostic biomarkers were explored and evaluated.
-
+Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains a prevalent and lethal malignancy within the urinary tract. Precise  UC survival risk stratification is critical for accurate personalized therapy. Here we present an interactive, interpretable and prior knowledge-guided deep learning system for biomarker exploration and prognosis prediction.
 ## Directory Structure
 
 * **Training Scripts**: *Training Scripts for CTContextNet, MacroContextNet, Interactive SwinUNETR and  IM-NCTNet.*
