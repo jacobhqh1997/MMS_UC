@@ -108,7 +108,7 @@ In Training Scripts, the train_seg.py script is used to train the interactive  S
 
 ```bash
 $ cd ./Training Scripts
-$ python train_seg.py -c configs/config_rnet.json  # IM_NCTNet training scripts 
+$ python train_seg.py -c configs/config_rnet.json  
 ```
 
 ## Biomarker_quantification
