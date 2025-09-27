@@ -76,8 +76,7 @@ $ python CT_process.py
   ```bash
   $ cd ./Feature_extractor
   $ python micro_feature.py   #get Uni microscopic feature
-  $ python local_feature.py   #get local macroscopic feature
-  $ python global_feature.py   #get global macroscopic feature
+  $ python macro_feature.py   #get  macroscopic feature
   $ python radio_feature.py   #get radiographic feature
   ```
 
