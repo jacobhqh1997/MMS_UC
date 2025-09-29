@@ -35,11 +35,17 @@ def generate_report_from_BUC_ground_truth(ground_truth_row: pd.Series) -> str:
         "M1b": "metastasis in other distant site",
         "MX": "not specified"
     }
-    grade_to_description = {
-        "0": "Low-Grade Urothelial Carcinoma",
-        "1": "High-Grade Urothelial Carcinoma",
-        "x": "Urothelial carcinoma with histologic variants",
-    }
+    # --- New logic for combined grade and variants ---
+    grade_code = str(ground_truth_row.get("grade", "1")) 
+    if grade_code == '0':
+        grade_description = "Low-Grade Urothelial Carcinoma"
+    else:
+        grade_description = "High-Grade Urothelial Carcinoma"
+
+    # Check for histologic variants and append if present
+    if pd.notna(ground_truth_row.get("histologic_variants")) and ground_truth_row.get("histologic_variants") == 1:
+        grade_description += " with histologic variants"
+    # --- End of new logic ---
 
 
     age = ground_truth_row.get("age")
@@ -61,7 +67,7 @@ def generate_report_from_BUC_ground_truth(ground_truth_row: pd.Series) -> str:
     )
 
     pathology_report = pathology_template.format(
-        grade=grade_to_description.get(str(ground_truth_row.get("grade", "x")), "not specified"),
+        grade=grade_description,
         invasion=pT_stage_to_invasion.get(pT, "not specified"),
         pT=pT,
         lymph_nodes=pN_stage_to_lymph_node.get(pN, "regional lymph nodes not assessed"),
@@ -85,7 +91,7 @@ def generate_report_from_UTUC_ground_truth(ground_truth_row: pd.Series) -> str:
         "T2": "tumor invades muscle layer",
         "T3": "Tumor invades beyond muscularis into peripelvic/periureteric fat",
         "T4": "tumour invades adjacent organs",
-        "TX": "no evidence of primary tumor"
+        "TX": "not specified"
     }
     pN_stage_to_lymph_node = {
         "N0": "no regional lymph node metastasis",
@@ -98,20 +104,26 @@ def generate_report_from_UTUC_ground_truth(ground_truth_row: pd.Series) -> str:
         "M1": "distant metastasis",
         "MX": "not specified"
     }
-    grade_to_description = {
-        "0": "Low-Grade Urothelial Carcinoma",
-        "1": "High-Grade Urothelial Carcinoma",
-        "x": "Urothelial carcinoma with histologic variants",
-    }
+
+    # --- New logic for combined grade and variants ---
+    grade_code = str(ground_truth_row.get("grade", "1")) # Default to High-Grade
+    if grade_code == '0':
+        grade_description = "Low-Grade Urothelial Carcinoma"
+    else:
+        grade_description = "High-Grade Urothelial Carcinoma"
+
+    # Check for histologic variants and append if present
+    if pd.notna(ground_truth_row.get("histologic_variants")) and ground_truth_row.get("histologic_variants") == 1:
+        grade_description += " with histologic variants"
+    # --- End of new logic ---
 
     
     pT = ground_truth_row.get("T", "TX")
     pN = ground_truth_row.get("N", "NX")
     pM = ground_truth_row.get("M", "MX")
 
-    grade_description = grade_to_description.get(str(ground_truth_row.get("grade", "x")), "not specified")
+  
     invasion_description = pT_stage_to_invasion.get(pT, "not specified")
-    
 
     age = ground_truth_row.get("age")
     gender = ground_truth_row.get("gender", "not specified")
@@ -139,6 +151,4 @@ def generate_report_from_UTUC_ground_truth(ground_truth_row: pd.Series) -> str:
         lvi=ground_truth_row.get("LVI", "not reported")
     )
     return basic_info + pathology_report
-
-
 
