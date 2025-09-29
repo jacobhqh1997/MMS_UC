@@ -8,7 +8,7 @@ Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains 
 
 * **Training Scripts**: *Training Scripts for CTContextNet, MacroContextNet, Interactive SwinUNETR and  IM-NCTNet.*
 * **Data_process**: *Data preprocessing file.*
-* **Feature_extractor**: *radiographic, macroscopic, microscopic feature extraction.*
+* **Feature_extractor**: *radiographic, macroscopic,textual, and microscopic feature extraction.*
 * **Biomarker_quantification**: Detailed code definitions for each Biomarker
 
 
@@ -51,7 +51,14 @@ CT images are cropped in 3D to create the initial input files for the CTContextN
 $ cd ./Data_process
 $ python CT_process.py
 ```
+### Generate structured pathology report
 
+structured pathology reports are derived from structured ground-truth data (e.g., TNM stage, grade, LVI status).
+
+```shell
+$ cd ./Data_process
+$ python UC_report_standardization_ground_generation.py
+```
 ### Generate **local and global pathological knowledge-guided patch representation**
 
 - Create original macroscopic tissue probability heatmaps for MacroContextNet training. WSIs are first processed by UCSparseNet network to get  local  probability heatmaps, Global knowledge-guided patch representation: create global  probability heatmaps. 
@@ -71,13 +78,14 @@ $ python CT_process.py
 
 ## Feature_extractor
 
-- Subsequently, we generated macroscopic feature, radiographic feature, and microscopic features for IM-NCTNet training, respectively. 
+- Subsequently, we generated macroscopic feature, textual feature, radiographic feature, and microscopic features for IM-NCTNet training, respectively. 
 
   ```bash
   $ cd ./Feature_extractor
   $ python micro_feature.py   #get Uni microscopic feature
   $ python macro_feature.py   #get  macroscopic feature
   $ python radio_feature.py   #get radiographic feature
+  $ python text_feature.py   #get textual feature
   ```
 
 ### Training Scripts
@@ -176,7 +184,11 @@ DATA_ROOT/
                 ├── radio                               + + +
                        ├── slide_1.pt                       +
                        ├── slide_2.pt                       +
-                       └── ...                              +   
+                       └── ...                              +  
+                ├── text                                + + +
+                       ├── slide_1.pt                       +
+                       ├── slide_2.pt                       +
+                       └── ...                              +                          
 ```
 DATA_ROOT is the base directory of all datasets (e.g. the directory to your SSD or HDD). DATASET is the name of the folder containing data specific to one experiment.
 
