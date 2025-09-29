@@ -62,7 +62,7 @@ Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains 
     - **Missing Tissue**: The model may fail to extract meaningful features if critical tissue types (e.g., tumor, stroma) are absent in the WSI.
 - **Compute Footprint & Latency**:
     - **Training**: Trained on a single NVIDIA GeForce RTX A6000 (48GB) GPU.
-    - **Inference**: Inference time for a single case is typically within 1-2 minutes.
+    - **Inference**: Inference time for a single case is typically within few seconds.
 
 ---
 
