@@ -152,3 +152,38 @@ def generate_report_from_UTUC_ground_truth(ground_truth_row: pd.Series) -> str:
     )
     return basic_info + pathology_report
 
+
+input_csv_path = "path/to/buc.csv"
+output_dir = "./BUC_report_standardization_ground"
+os.makedirs(output_dir, exist_ok=True)
+
+
+all_results = []
+
+try:
+    df_input = pd.read_csv(input_csv_path)
+
+except FileNotFoundError:
+    print(f"error at {input_csv_path}")
+    exit()
+
+for index, row in df_input.iterrows():
+    original_text = row.get('Report', '')
+    doc_id = row.get('id', f"row_{index}")
+
+    gt_standardized_report_text = generate_report_from_BUC_ground_truth(row)
+
+    
+    result_row = {
+       
+        'ID': doc_id,
+        'GT_Standardized_Report': gt_standardized_report_text
+    }
+    all_results.append(result_row)
+
+
+df_output = pd.DataFrame(all_results)
+output_csv_filename = f"{output_dir}/BUC_extraction_evaluation_results.csv"
+df_output.to_csv(output_csv_filename, index=False, encoding='utf-8-sig')
+
+
