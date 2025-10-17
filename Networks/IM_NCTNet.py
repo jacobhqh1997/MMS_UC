@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys
-sys.path.append('/path/to/MMS_UC_NO_C/')  
+sys.path.append('/path/to/MMS_UC/')  
 from Networks.blocks import AttentionNetGated, PreGatingContextualAttention
 from Networks.fusion import BilinearFusion, ConcatFusion, GatedConcatFusion
 from typing import List
