@@ -20,10 +20,6 @@ from torchvision import transforms
 import timm
 
 
-model_virchow = timm.create_model("hf-hub:paige-ai/Virchow2", pretrained=True, mlp_layer=SwiGLUPacked, act_layer=torch.nn.SiLU)
-model_virchow = model_virchow.eval()
-transforms_virchow = create_transform(**resolve_data_config(model_virchow.pretrained_cfg, model=model_virchow))
-
 local_dir = "path/to/UNI/"
 model_uni = timm.create_model(
     "vit_large_patch16_224", img_size=224, patch_size=16, init_values=1e-5, num_classes=0, dynamic_img_size=True
@@ -82,7 +78,7 @@ model_uni.to(device)
 
 features_dict_uni = defaultdict(lambda: {'features': [], 'coords': []})
 
-# 
+
 with torch.no_grad():
     for patches_uni, (y_coords, x_coords), paths in dataloader:
 
