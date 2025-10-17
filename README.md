@@ -36,13 +36,13 @@ Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains 
    ``` shell
    $ pip install -r requirements.txt
    ```
-### 1. CTContextNet (Radiomics Module)
-- **Model's Intended Use**: To extract radiomic features from 3D cropped CT scans for multimodal prognosis prediction.
+### 1. CTContextNet (Rad Module)
+- **Model's Intended Use**: To extract CT features from 3D cropped CT scans for multimodal prognosis prediction.
 - **Inputs**:
     - Pre-processed and 3D-cropped CT images.
     - Format: NIFTI (`.nii.gz`).
 - **Outputs**:
-    - A feature vector representing the radiomic signature (`.pt` file).
+    - A feature vector representing the radio signature (`.pt` file).
 - **Potential Failure Modes**:
     - **Out-of-Domain Data**: Performance may degrade on CT scans from different scanners or with different acquisition protocols.
 - **Compute Footprint & Latency**:
@@ -83,10 +83,10 @@ Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains 
 ---
 
 ### 4. IM-NCTNet (Multimodal Fusion Model)
-- **Model's Intended Use**: To integrate features from multiple modalities (radiomics, pathology, text) and predict patient prognosis (e.g., survival risk).
+- **Model's Intended Use**: To integrate features from multiple modalities (radio, pathology, text) and predict patient prognosis (e.g., survival risk).
 - **Inputs**:
     - Pre-extracted feature vectors from the upstream models:
-        - Radiomic features (`.pt`)
+        - Radio features (`.pt`)
         - Macroscopic features (`.pt`)
         - Microscopic features (`.pt`)
         - Textual features (`.pt`)
@@ -122,7 +122,7 @@ $ python UC_report_standardization_ground_generation.py
 ```
 ### Generate **local and global pathological knowledge-guided patch representation**
 
-- Create original macroscopic tissue probability heatmaps for MacroContextNet training. WSIs are first processed by UCSparseNet network to get  local  probability heatmaps, Global knowledge-guided patch representation: create global  probability heatmaps. 
+- Create original macroscopic tissue probability heatmaps for MacroContextNet training. WSIs are first processed by UCSparseNet network to get  local  probability heatmaps, Global knowledge-guided patch representation: create global probability heatmaps. 
 
 ``` shell
   $ cd ./Data_prepare
