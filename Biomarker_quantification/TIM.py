@@ -50,8 +50,8 @@ def TIM_Score(prob_map_path, cell_size):
 prob_map_path = "path/to/your/prob_map.npy"  
 cell_size = 10  
 
-
 tim_score, coloc_score = TIM_Score(prob_map_path, cell_size)
 
 
 print("TIM Score:", tim_score)
+
