@@ -172,11 +172,12 @@ $ cd ./Training Scripts
 $ python train_IM_NCTNet.py  # IM_NCTNet training scripts 
 ```
 
-In Training Scripts, the train_seg.py script is used to train the interactive  Swin-UNETR model.
+In Training Scripts, the train_seg.py script is used to train the interactive  Swin-UNETR model；the geo_refine_process.py script is used to refine the segmentation results
 
 ```bash
 $ cd ./Training Scripts
-$ python train_seg.py -c configs/config_rnet.json  
+$ python train_seg.py -c configs/config_rnet.json
+$ python geo_refine_process.py  #get refined segmentation results
 ```
 
 ## Biomarker_quantification
