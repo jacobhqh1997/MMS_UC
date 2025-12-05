@@ -1,6 +1,6 @@
 # ***Prior knowledge-guided multimodal deep learning system for biomarker exploration and prognosis prediction of urothelial carcinoma***
 
-© This code is made available for non-commercial academic purposes. 
+© This code is made available for non-commercial academic purposes. For guiding thought only.
 
 ## Overview
 Urothelial carcinoma (UC), encompassing lower and upper tract variants, remains a prevalent and lethal malignancy within the urinary tract. Precise  UC survival risk stratification is critical for accurate personalized therapy. Here we present an interactive, interpretable and prior knowledge-guided deep learning system for biomarker exploration and prognosis prediction.
@@ -228,7 +228,7 @@ DATA_ROOT is the base directory of all datasets (e.g. the directory to your SSD 
 
 
 ## Acknowledgements
-- Prognosis training and test code base structure was inspired by [[PathFinder]](https://github.com/Biooptics2021/PathFinder) and[[MCAT]](https://github.com/mahmoodlab/MCAT) .
+- Prognosis training and test code base structure was inspired by [[PathFinder]](https://github.com/Biooptics2021/PathFinder) and[[MCAT]](https://github.com/mahmoodlab/MCAT) .The pre-training weights have not yet been released, but reasonable requests can be made to the corresponding author to obtain them.
 
   
 
